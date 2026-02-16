@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory - KNS Inventory</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="../images/logo.png" alt="KNS Logo" class="logo-img">
+                    <span class="logo-name">KNS Inventory</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li onclick="window.location.href='index.html'">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+                        <span>Dashboard</span>
+                    </li>
+                    <li class="active" onclick="window.location.href='inventory.html'">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M20 13H4v-2h16v2zm0-4H4V7h16v2zm0 8H4v-2h16v2zM4 3v2h16V3H4z"/></svg>
+                        <span>Inventory</span>
+                    </li>
+                    <li onclick="window.location.href='stockmovement.html'">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M16 17.01V10h-2v7.01h-3L15 21l4-3.99h-3zM9 3L5 6.99h3V14h2V6.99h3L9 3z"/></svg>
+                        <span>Stock Movement</span>
+                    </li>
+                    <li onclick="window.location.href='requests.html'">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                        <span>Requests & Approvals</span>
+                    </li>
+                    <li onclick="window.location.href='reports.html'">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+                        <span>Reports</span>
+                    </li>
+                    <li onclick="window.location.href='users.html'">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                        <span>Users & Roles</span>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="footer-divider"></div>
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                    </div>
+                    <div class="user-info">
+                        <span class="user-name">Admin User</span>
+                        <span class="user-role">Administrator</span>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <svg class="nav-icon" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <h1>Inventories</h1>
+                <p>Manage and track your inventory items.</p>
+            </header>
+
+            <div class="search-filter-bar">
+                <div class="search-container">
+                    <input type="text" id="inventory-search" placeholder="Search for Inventory Items">
+                    <button class="search-btn" onclick="applyFilters()">Search</button>
+                </div>
+                
+                <!-- Department Filter Dropdown -->
+                <div class="filter-dropdown-container">
+                    <button class="filter-btn" id="dept-filter-btn">All Departments</button>
+                    <div class="dropdown-content" id="dept-dropdown">
+                        <div class="dropdown-item active" onclick="selectFilter('dept', '-select-')">-select-</div>
+                        <div class="dropdown-item" onclick="selectFilter('dept', 'IT Department')">IT Department</div>
+                        <div class="dropdown-item" onclick="selectFilter('dept', 'Human Resources')">Human Resources</div>
+                        <div class="dropdown-item" onclick="selectFilter('dept', 'Administration')">Administration</div>
+                        <div class="dropdown-item" onclick="selectFilter('dept', 'Finance')">Finance</div>
+                        <div class="dropdown-item" onclick="selectFilter('dept', 'College')">College</div>
+                    </div>
+                </div>
+
+                <!-- Category Filter Dropdown -->
+                <div class="filter-dropdown-container">
+                    <button class="filter-btn" id="cat-filter-btn">All Categories</button>
+                    <div class="dropdown-content" id="cat-dropdown">
+                        <div class="dropdown-item active" onclick="selectFilter('cat', '-select-')">-select-</div>
+                        <div class="dropdown-item" onclick="selectFilter('cat', 'Electronics')">Electronics</div>
+                        <div class="dropdown-item" onclick="selectFilter('cat', 'Furniture')">Furniture</div>
+                        <div class="dropdown-item" onclick="selectFilter('cat', 'Office Supplies')">Office Supplies</div>
+                        <div class="dropdown-item" onclick="selectFilter('cat', 'Computers')">Computers</div>
+                        <div class="dropdown-item" onclick="selectFilter('cat', 'Equipment')">Equipment</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="inventory-table-container">
+                <div class="table-header">
+                    <h2>Inventory List</h2>
+                    <button class="add-btn" onclick="openItemModal()">
+                        <svg viewBox="0 0 24 24" width="16" height="16" fill="white"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+                        Add Item
+                    </button>
+                </div>
+                <div id="no-results" class="no-results-message" style="display: none;">
+                    No items found matching your filters.
+                </div>
+                <table class="inventory-table" id="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>Item</th>
+                            <th>Category</th>
+                            <th>Department</th>
+                            <th>Quantity</th>
+                            <th>Condition</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="inventory-list">
+                        <!-- Sample Data -->
+                        <tr>
+                            <td class="item-name-cell">Laptop - HP EliteBook</td>
+                            <td>Electronics</td>
+                            <td>IT Department</td>
+                            <td>15</td>
+                            <td><a href="condition.html" class="condition-link">View Condition</a></td>
+                            <td>
+                                <div class="action-icons">
+                                    <svg class="action-icon edit" viewBox="0 0 24 24" onclick="openItemModal(this)"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                                    <svg class="action-icon delete" viewBox="0 0 24 24" onclick="alert('Delete Item')"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="item-name-cell">Office Chair - Ergonomic</td>
+                            <td>Furniture</td>
+                            <td>Human Resources</td>
+                            <td>42</td>
+                            <td><a href="condition.html" class="condition-link">View Condition</a></td>
+                            <td>
+                                <div class="action-icons">
+                                    <svg class="action-icon edit" viewBox="0 0 24 24" onclick="openItemModal(this)"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                                    <svg class="action-icon delete" viewBox="0 0 24 24" onclick="alert('Delete Item')"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="item-name-cell">Printer - LaserJet Pro</td>
+                            <td>Office Supplies</td>
+                            <td>Administration</td>
+                            <td>8</td>
+                            <td><a href="condition.html" class="condition-link">View Condition</a></td>
+                            <td>
+                                <div class="action-icons">
+                                    <svg class="action-icon edit" viewBox="0 0 24 24" onclick="openItemModal(this)"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                                    <svg class="action-icon delete" viewBox="0 0 24 24" onclick="alert('Delete Item')"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Item Modal -->
+    <div id="item-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modal-title">Add New Inventory Item</h2>
+                <span class="close-modal" onclick="closeItemModal()">&times;</span>
+            </div>
+            <form id="item-form" onsubmit="handleItemSubmit(event)">
+                <input type="hidden" id="edit-row-index">
+                <div class="form-group">
+                    <label for="item-name">Item Name</label>
+                    <input type="text" id="item-name" required placeholder="Enter item name">
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="item-category">Category</label>
+                        <select id="item-category" required onchange="checkNewOption(this, 'category')">
+                            <option value="">-select-</option>
+                            <option value="Electronics">Electronics</option>
+                            <option value="Furniture">Furniture</option>
+                            <option value="Office Supplies">Office Supplies</option>
+                            <option value="Computers">Computers</option>
+                            <option value="Equipment">Equipment</option>
+                            <option value="-add-new-">-add new-</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="item-department">Department</label>
+                        <select id="item-department" required onchange="checkNewOption(this, 'department')">
+                            <option value="">-select-</option>
+                            <option value="IT Department">IT Department</option>
+                            <option value="Human Resources">Human Resources</option>
+                            <option value="Administration">Administration</option>
+                            <option value="Finance">Finance</option>
+                            <option value="College">College</option>
+                            <option value="-add-new-">-add new-</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="item-quantity">Quantity</label>
+                        <input type="number" id="item-quantity" required min="1" value="1">
+                    </div>
+                    <div class="form-group">
+                        <label for="item-condition">Condition</label>
+                        <select id="item-condition" required>
+                            <option value="">-select-</option>
+                            <option value="Excellent">Excellent</option>
+                            <option value="Good">Good</option>
+                            <option value="Fair">Fair</option>
+                            <option value="Poor">Poor</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeItemModal()">Cancel</button>
+                    <button type="submit" class="btn-primary" id="submit-btn">Add Item</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../auth.js"></script>
+    <script src="inventory.js"></script>
+    <script>
+        // Check authentication on load
+        const user = checkAuth('admin');
+        if (user && user.fullName) {
+            document.getElementById('displayUserName').textContent = user.fullName;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Users & Roles - KNS Inventory</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <img src="../images/logo.png" alt="KNS Logo" class="logo-img">
+                    <span class="logo-name">KNS Inventory</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <ul>
+                    <li onclick="window.location.href='index.html'">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+                        <span>Dashboard</span>
+                    </li>
+                    <li onclick="window.location.href='inventory.html'">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M20 13H4v-2h16v2zm0-4H4V7h16v2zm0 8H4v-2h16v2zM4 3v2h16V3H4z"/></svg>
+                        <span>Inventory</span>
+                    </li>
+                    <li onclick="window.location.href='stockmovement.html'">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M16 17.01V10h-2v7.01h-3L15 21l4-3.99h-3zM9 3L5 6.99h3V14h2V6.99h3L9 3z"/></svg>
+                        <span>Stock Movement</span>
+                    </li>
+                    <li onclick="window.location.href='requests.html'">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M14 2H6c-1.1 0-1.99.9-1.99 2L4 20c0 1.1.89 2 1.99 2H18c1.1 0 2-.9 2-2V8l-6-6zm2 16H8v-2h8v2zm0-4H8v-2h8v2zm-3-5V3.5L18.5 9H13z"/></svg>
+                        <span>Requests & Approvals</span>
+                    </li>
+                    <li onclick="window.location.href='reports.html'">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+                        <span>Reports</span>
+                    </li>
+                    <li class="active" onclick="window.location.href='users.html'">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+                        <span>Users & Roles</span>
+                    </li>
+                </ul>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="footer-divider"></div>
+                <div class="user-profile">
+                    <div class="user-avatar">
+                        <svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>
+                    </div>
+                    <div class="user-info">
+                        <span class="user-name" id="displayUserName">Admin User</span>
+                        <span class="user-role">Administrator</span>
+                    </div>
+                </div>
+                <button class="logout-btn" onclick="logout()">
+                    <svg class="nav-icon" viewBox="0 0 24 24"><path d="M17 7l-1.41 1.41L18.17 11H8v2h10.17l-2.58 2.58L17 17l5-5zM4 5h8V3H4c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h8v-2H4V5z"/></svg>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="content-header">
+                <h1>Users & Roles</h1>
+                <p>Manage user accounts and permissions</p>
+            </header>
+
+            <!-- User Management Section -->
+            <div class="user-mgmt-card">
+                <div class="user-mgmt-header">
+                    <h2>User Management</h2>
+                    <button class="btn-add-user" onclick="openUserModal()">Add New User</button>
+                </div>
+
+                <table class="inventory-table user-table" id="user-table">
+                    <thead>
+                        <tr>
+                            <th>User</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Department</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="user-list">
+                        <tr data-user-id="1" data-first-name="Admin" data-last-name="User" data-email="admin@kns.com" data-phone="" data-role="Admin" data-department="IT Department" data-status="Active" data-modules="inventory,stock,reports">
+                            <td>
+                                <div class="user-cell">
+                                    <svg class="user-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                                    <span class="user-name-text">Admin User</span>
+                                </div>
+                            </td>
+                            <td class="user-email-cell">admin@kns.com</td>
+                            <td class="user-role-cell"><span class="badge badge-admin">Admin</span></td>
+                            <td class="user-dept-cell">IT Department</td>
+                            <td class="user-status-cell"><span class="badge badge-active">Active</span></td>
+                            <td>
+                                <div class="action-icons">
+                                    <svg class="action-icon edit" onclick="openUserModal(this)" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                                    <svg class="action-icon delete" onclick="handleDeleteUser(this)" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr data-user-id="2" data-first-name="John" data-last-name="Doe" data-email="john@kns.com" data-phone="" data-role="Staff" data-department="IT Department" data-status="Active" data-modules="inventory,stock">
+                            <td>
+                                <div class="user-cell">
+                                    <svg class="user-icon staff" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                                    <span class="user-name-text">John Doe</span>
+                                </div>
+                            </td>
+                            <td class="user-email-cell">john@kns.com</td>
+                            <td class="user-role-cell"><span class="badge badge-staff">Staff</span></td>
+                            <td class="user-dept-cell">IT Department</td>
+                            <td class="user-status-cell"><span class="badge badge-active">Active</span></td>
+                            <td>
+                                <div class="action-icons">
+                                    <svg class="action-icon edit" onclick="openUserModal(this)" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                                    <svg class="action-icon delete" onclick="handleDeleteUser(this)" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr data-user-id="3" data-first-name="Jane" data-last-name="Smith" data-email="jane@kns.com" data-phone="" data-role="Staff" data-department="Finance" data-status="Pending" data-modules="inventory">
+                            <td>
+                                <div class="user-cell">
+                                    <svg class="user-icon pending" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+                                    <span class="user-name-text">Jane Smith</span>
+                                </div>
+                            </td>
+                            <td class="user-email-cell">jane@kns.com</td>
+                            <td class="user-role-cell"><span class="badge badge-staff">Staff</span></td>
+                            <td class="user-dept-cell">Finance</td>
+                            <td class="user-status-cell"><span class="badge badge-pending">Pending</span></td>
+                            <td>
+                                <div class="action-icons">
+                                    <svg class="action-icon edit" onclick="openUserModal(this)" viewBox="0 0 24 24"><path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z"/></svg>
+                                    <svg class="action-icon delete" onclick="handleDeleteUser(this)" viewBox="0 0 24 24"><path d="M6 19c0 1.1.9 2 2 2h8c1.1 0 2-.9 2-2V7H6v12zM19 4h-3.5l-1-1h-5l-1 1H5v2h14V4z"/></svg>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <div id="user-modal" class="modal">
+        <div class="modal-content user-modal">
+            <div class="modal-header">
+                <h2 id="modal-title">Add New User</h2>
+                <span class="close-modal" onclick="closeUserModal()">&times;</span>
+            </div>
+            <div class="step-indicator">
+                <div class="step-indicator-step active" data-step="1">
+                    <div class="step-indicator-circle">1</div>
+                    <div class="step-indicator-label">Personal Info</div>
+                </div>
+                <div class="step-indicator-line"></div>
+                <div class="step-indicator-step" data-step="2">
+                    <div class="step-indicator-circle">2</div>
+                    <div class="step-indicator-label">Role & Access</div>
+                </div>
+                <div class="step-indicator-line"></div>
+                <div class="step-indicator-step" data-step="3">
+                    <div class="step-indicator-circle">3</div>
+                    <div class="step-indicator-label">Confirmation</div>
+                </div>
+            </div>
+            <form id="user-form" onsubmit="handleUserSubmit(event)">
+                <input type="hidden" id="edit-row-index">
+                <input type="hidden" id="user-id">
+                <div class="user-step active" data-step="1">
+                    <div class="form-group">
+                        <label for="user-first-name">First Name</label>
+                        <input type="text" id="user-first-name" required placeholder="Enter first name">
+                    </div>
+                    <div class="form-group">
+                        <label for="user-last-name">Last Name</label>
+                        <input type="text" id="user-last-name" required placeholder="Enter last name">
+                    </div>
+                    <div class="form-group">
+                        <label for="user-email">Email Address</label>
+                        <input type="email" id="user-email" required placeholder="Enter email address">
+                    </div>
+                    <div class="form-group">
+                        <label for="user-phone">Phone Number</label>
+                        <input type="tel" id="user-phone" required placeholder="Enter phone number">
+                    </div>
+                </div>
+                <div class="user-step" data-step="2">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="user-role">Role</label>
+                            <select id="user-role" required onchange="checkNewUserOption(this, 'role')">
+                                <option value="">-select-</option>
+                                <option value="Admin">Admin</option>
+                                <option value="Staff">Staff</option>
+                                <option value="-add-new-">-add new-</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="user-dept">Department</label>
+                            <select id="user-dept" required onchange="checkNewUserOption(this, 'department')">
+                                <option value="">-select-</option>
+                                <option value="IT Department">IT Department</option>
+                                <option value="Human Resources">Human Resources</option>
+                                <option value="Administration">Administration</option>
+                                <option value="Finance">Finance</option>
+                                <option value="College">College</option>
+                                <option value="-add-new-">-add new-</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="module-access-group">
+                        <div class="module-access-title">Module Access</div>
+                        <div class="module-access-options">
+                            <label class="module-access-option">
+                                <input type="checkbox" name="user-modules" value="inventory">
+                                <span>Inventory</span>
+                                <span class="module-access-description">Manage assets</span>
+                            </label>
+                            <label class="module-access-option">
+                                <input type="checkbox" name="user-modules" value="stock">
+                                <span>Stock Movement</span>
+                                <span class="module-access-description">Track logs</span>
+                            </label>
+                            <label class="module-access-option">
+                                <input type="checkbox" name="user-modules" value="reports">
+                                <span>Reports</span>
+                                <span class="module-access-description">View analytics</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="user-status">Status</label>
+                        <select id="user-status" required>
+                            <option value="">-select-</option>
+                            <option value="Active">Active</option>
+                            <option value="Pending">Pending</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="user-step" data-step="3">
+                    <div class="confirmation-text">Review the details before saving.</div>
+                    <div class="confirmation-grid">
+                        <div class="confirmation-group">
+                            <div class="confirmation-label">Name</div>
+                            <div class="confirmation-value" id="summary-name"></div>
+                        </div>
+                        <div class="confirmation-group">
+                            <div class="confirmation-label">Email</div>
+                            <div class="confirmation-value" id="summary-email"></div>
+                        </div>
+                        <div class="confirmation-group">
+                            <div class="confirmation-label">Phone</div>
+                            <div class="confirmation-value" id="summary-phone"></div>
+                        </div>
+                        <div class="confirmation-group">
+                            <div class="confirmation-label">Role</div>
+                            <div class="confirmation-value" id="summary-role"></div>
+                        </div>
+                        <div class="confirmation-group">
+                            <div class="confirmation-label">Department</div>
+                            <div class="confirmation-value" id="summary-department"></div>
+                        </div>
+                        <div class="confirmation-group">
+                            <div class="confirmation-label">Modules</div>
+                            <div class="confirmation-value" id="summary-modules"></div>
+                        </div>
+                        <div class="confirmation-group">
+                            <div class="confirmation-label">Status</div>
+                            <div class="confirmation-value" id="summary-status"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" id="user-back-btn" onclick="prevUserStep()">Back</button>
+                    <div class="modal-footer-actions">
+                        <button type="button" class="btn-secondary" onclick="closeUserModal()">Cancel</button>
+                        <button type="button" class="btn-next" id="user-next-btn" onclick="nextUserStep()">Next</button>
+                        <button type="submit" class="btn-primary" id="submit-btn">Save User</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="../auth.js"></script>
+    <script src="users.js"></script>
+    <script>
+        // Check authentication on load
+        const user = checkAuth('admin');
+        if (user && user.fullName) {
+            document.getElementById('displayUserName').textContent = user.fullName;
+        }
+    </script>
+</body>
+</html>
